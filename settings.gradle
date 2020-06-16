@@ -1,0 +1,2 @@
+rootProject.name='ComicVineApp'
+include ':app'
