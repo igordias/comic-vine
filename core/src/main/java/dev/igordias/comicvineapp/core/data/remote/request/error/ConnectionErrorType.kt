@@ -1,4 +1,4 @@
-package dev.igordias.comicvineapp.core.data.remote.request
+package dev.igordias.comicvineapp.core.data.remote.request.error
 
 enum class ConnectionErrorType {
     HTTP,

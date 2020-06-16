@@ -1,4 +1,4 @@
-package dev.igordias.comicvineapp.core.data.remote.request
+package dev.igordias.comicvineapp.core.data.remote.request.interceptor
 
 import dev.igordias.comicvineapp.core.BuildConfig
 import okhttp3.Interceptor
@@ -11,8 +11,14 @@ class AuthInterceptor : Interceptor {
         val originalHttpUrl = original.url()
 
         val parametrizedUrl = originalHttpUrl.newBuilder()
-            .addQueryParameter(NAMED_API_KEY_PARAMETER, apiKey)
-            .addQueryParameter(NAMED_RESPONSE_FORMAT_PARAMETER, responseFormat)
+            .addQueryParameter(
+                NAMED_API_KEY_PARAMETER,
+                apiKey
+            )
+            .addQueryParameter(
+                NAMED_RESPONSE_FORMAT_PARAMETER,
+                responseFormat
+            )
             .build()
 
         val requestBuilder = original.newBuilder()
