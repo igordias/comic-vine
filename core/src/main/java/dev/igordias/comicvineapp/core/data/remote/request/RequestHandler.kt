@@ -9,7 +9,7 @@ import java.net.UnknownHostException
 
 open class RequestHandler {
 
-    fun <T> Response<T>.handle(): T {
+    fun <T> Response<T>.result(): T {
         try {
             return this.body() ?: throw RequestException.NullBody()
         } catch (e: Exception) {

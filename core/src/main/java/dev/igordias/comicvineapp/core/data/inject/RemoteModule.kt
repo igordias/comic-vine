@@ -3,7 +3,6 @@ package dev.igordias.comicvineapp.core.data.inject
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.igordias.comicvineapp.core.BuildConfig
-import dev.igordias.comicvineapp.core.data.remote.RetrofitClient
 import dev.igordias.comicvineapp.core.data.remote.RetrofitService
 import dev.igordias.comicvineapp.core.data.remote.request.envelope.EnvelopeConverter
 import dev.igordias.comicvineapp.core.data.remote.request.interceptor.AuthInterceptor
@@ -17,7 +16,7 @@ import org.rewedigital.katana.dsl.singleton
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-private enum class NamedBinding {
+private enum class RemoteModuleNamedBinding {
     AUTH_INTERCEPTOR,
     LOGGING_INTERCEPTOR,
     RETROFIT,
@@ -25,9 +24,9 @@ private enum class NamedBinding {
     RESPONSE_EXCEPTION_INTERCEPTOR
 }
 
-val INJECT_MODULE_REMOTE_CLIENT = Module {
+val INJECT_MODULE_REMOTE = Module {
 
-    singleton(name = NamedBinding.LOGGING_INTERCEPTOR) {
+    singleton(name = RemoteModuleNamedBinding.LOGGING_INTERCEPTOR) {
         val loggingLevel = when (BuildConfig.DEBUG) {
             true -> HttpLoggingInterceptor.Level.BODY
             false -> HttpLoggingInterceptor.Level.NONE
@@ -35,26 +34,25 @@ val INJECT_MODULE_REMOTE_CLIENT = Module {
         HttpLoggingInterceptor().setLevel(loggingLevel)
     }
 
-    singleton(name = NamedBinding.AUTH_INTERCEPTOR) {
+    singleton(name = RemoteModuleNamedBinding.AUTH_INTERCEPTOR) {
         AuthInterceptor()
     }
 
-    singleton(name = NamedBinding.RESPONSE_EXCEPTION_INTERCEPTOR) {
+    singleton(name = RemoteModuleNamedBinding.RESPONSE_EXCEPTION_INTERCEPTOR) {
         ResponseExceptionInterceptor()
     }
 
-    singleton(name = NamedBinding.HTTP_CLIENT) {
+    singleton(name = RemoteModuleNamedBinding.HTTP_CLIENT) {
         OkHttpClient.Builder().run {
-            addInterceptor(get(NamedBinding.LOGGING_INTERCEPTOR))
-            addInterceptor(get(NamedBinding.AUTH_INTERCEPTOR))
-            addInterceptor(get(NamedBinding.RESPONSE_EXCEPTION_INTERCEPTOR))
+            addInterceptor(get(RemoteModuleNamedBinding.AUTH_INTERCEPTOR))
+            addInterceptor(get(RemoteModuleNamedBinding.RESPONSE_EXCEPTION_INTERCEPTOR))
             build()
         }
     }
 
-    singleton(name = NamedBinding.RETROFIT) {
+    singleton(name = RemoteModuleNamedBinding.RETROFIT) {
         val builder = Retrofit.Builder()
-            .client(get(NamedBinding.HTTP_CLIENT))
+            .client(get(RemoteModuleNamedBinding.HTTP_CLIENT))
             .baseUrl(BuildConfig.API_ENDPOINT)
             .addConverterFactory(EnvelopeConverter)
             .addConverterFactory(
@@ -66,12 +64,8 @@ val INJECT_MODULE_REMOTE_CLIENT = Module {
     }
 
     singleton {
-        get<Retrofit>(NamedBinding.RETROFIT).create(RetrofitService::class.java)
-    }
-
-    singleton {
-        RetrofitClient()
+        get<Retrofit>(RemoteModuleNamedBinding.RETROFIT).create(RetrofitService::class.java)
     }
 }
 
-val INJECT_COMPONENT_REMOTE_CLIENT = Component(modules = listOf(INJECT_MODULE_REMOTE_CLIENT))
+val INJECT_COMPONENT_REMOTE_CLIENT = Component(modules = listOf(INJECT_MODULE_REMOTE))
