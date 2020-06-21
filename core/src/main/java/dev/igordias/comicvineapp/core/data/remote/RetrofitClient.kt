@@ -1,18 +1,18 @@
 package dev.igordias.comicvineapp.core.data.remote
 
-import dev.igordias.comicvineapp.core.data.inject.remoteComponent
+import dev.igordias.comicvineapp.core.data.inject.INJECT_COMPONENT_REMOTE_CLIENT
 import dev.igordias.comicvineapp.core.data.remote.entity.ApiMovie
+import dev.igordias.comicvineapp.core.data.remote.request.RequestHandler
 import org.rewedigital.katana.Component
 import org.rewedigital.katana.KatanaTrait
 import org.rewedigital.katana.injectNow
 
-class RetrofitClient : KatanaTrait {
-    override val component = Component(dependsOn = listOf(remoteComponent))
+class RetrofitClient : KatanaTrait, RequestHandler() {
+    override val component = Component(dependsOn = listOf(INJECT_COMPONENT_REMOTE_CLIENT))
 
     private val service = injectNow<RetrofitService>()
 
     suspend fun getMovies(): List<ApiMovie> {
-        //TODO: Stop screaming!! and treat return properly
-        return service.getMovies(0, 1).body()!!
+        return service.getMovies(100, 0).handle()
     }
 }
