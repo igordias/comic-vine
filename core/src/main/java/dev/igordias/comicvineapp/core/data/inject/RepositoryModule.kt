@@ -6,10 +6,6 @@ import org.rewedigital.katana.Component
 import org.rewedigital.katana.Module
 import org.rewedigital.katana.dsl.factory
 
-private enum class RepositoryModuleNamedBinding {
-    MOVIES_REPOSITORY
-}
-
 val INJECT_MODULE_REPOSITORY = Module {
     factory<MovieRepository> { MovieRepositoryImpl() }
 }
