@@ -7,7 +7,7 @@ import dev.igordias.features.base.dialog.DialogData
 class ErrorHandler {
     private val HANDLED_ERROR_TAG = "HANDLED_ERROR"
 
-    fun handleError(throwable: Throwable, action: (() -> Unit)? = null): DialogData {
+    fun handle(throwable: Throwable, action: (() -> Unit)? = null): DialogData {
         Log.w(HANDLED_ERROR_TAG, throwable)
         return when (throwable) {
             is RequestException -> DialogData.Error(throwable.message, buildRetryButton(action))

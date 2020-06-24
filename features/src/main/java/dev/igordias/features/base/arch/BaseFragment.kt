@@ -9,15 +9,18 @@ import org.rewedigital.katana.KatanaTrait
 import org.rewedigital.katana.android.fragment.KatanaFragment
 
 abstract class BaseFragment : KatanaFragment(), KatanaTrait {
+    abstract val viewModel: BaseViewModel
+
     private var activity: Activity? = null
     private var dialog: Dialog? = null
-
-    override fun onInject(activity: Activity, savedInstanceState: Bundle?) {
-        this.activity = activity
-    }
 
     open fun onNextDialog(dialogData: DialogData?) = dialogData?.apply {
         dialog?.dismiss()
         dialog = activity?.showDialog(this)
+    }
+
+    override fun onInject(activity: Activity, savedInstanceState: Bundle?) {
+        this.activity = activity
+        lifecycle.addObserver(viewModel)
     }
 }

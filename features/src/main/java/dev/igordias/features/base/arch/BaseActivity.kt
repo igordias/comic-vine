@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.igordias.features.base.dialog.DialogData
 import dev.igordias.features.base.extension.observeEvent
 import dev.igordias.features.base.extension.showDialog
+import org.rewedigital.katana.KatanaTrait
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity(), KatanaTrait {
     abstract val viewModel: BaseViewModel
 
     private var dialog: Dialog? = null
