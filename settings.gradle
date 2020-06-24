@@ -1,3 +1,4 @@
 rootProject.name='ComicVineApp'
 include ':app'
 include ':core'
+include ':features'
