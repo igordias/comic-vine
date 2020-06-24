@@ -20,4 +20,8 @@ abstract class BaseViewModel constructor(
         _dialog.postValue(Event(dialogData))
     }
 
+    fun onError(throwable: Throwable, action: (() -> Unit)) {
+        errorHandler.handle(throwable, action).let(::setDialog)
+    }
+
 }

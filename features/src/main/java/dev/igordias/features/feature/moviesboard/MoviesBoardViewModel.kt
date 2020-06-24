@@ -4,6 +4,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.OnLifecycleEvent
+import dev.igordias.comicvineapp.core.domain.entity.Movie
 import dev.igordias.comicvineapp.core.domain.repository.MovieRepository
 import dev.igordias.features.base.arch.BaseViewModel
 import dev.igordias.features.base.arch.Event
@@ -17,18 +18,22 @@ class MoviesBoardViewModel constructor(
     errorHandler: ErrorHandler
 ) : BaseViewModel(errorHandler) {
 
-    private var _testMessage: MutableLiveData<Event<String>> = MutableLiveData()
-    val testMessage: LiveData<Event<String>> get() = _testMessage
+    private var _movies: MutableLiveData<Event<List<Movie>>> = MutableLiveData()
+    val movies: LiveData<Event<List<Movie>>> get() = _movies
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate() {
+    private fun onCreate() {
+        fetchMovies()
+    }
+
+    private fun fetchMovies() {
         CoroutineScope(Dispatchers.IO).launch {
-            val result = repository.getAllMovies()
-            _testMessage.postValue(Event(result.first().name))
-        }.invokeOnCompletion { throwable ->
-            throwable?.let {
-                setDialog(errorHandler.handle(it) {})
+            repository.getAllMovies().let {
+                _movies.postValue(Event(it))
             }
+        }.invokeOnCompletion {
+            it?.let { onError(it, ::fetchMovies) }
         }
     }
+
 }

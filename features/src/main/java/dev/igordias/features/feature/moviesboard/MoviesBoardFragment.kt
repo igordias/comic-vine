@@ -32,9 +32,7 @@ class MoviesBoardFragment : BaseFragment() {
     }
 
     private fun subscribeUi() {
-        viewModel.dialog.observeEvent(this) { dialogData ->
-            onNextDialog(dialogData)
-        }
+        viewModel.dialog.observeEvent(this, ::onNextDialog)
         viewModel.testMessage.observeEvent(this) { message ->
             message?.let {
                 binding.message.text = it
