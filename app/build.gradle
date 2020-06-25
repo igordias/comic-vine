@@ -32,6 +32,10 @@ android {
         jvmTarget = "1.8"
     }
 
+    dataBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
@@ -46,6 +50,7 @@ dependencies {
 
     // Core
     implementation project(':core')
+    implementation project(':features')
 
     // Katana
     implementation "org.rewedigital.katana:katana-core:${katana_version}"
@@ -55,4 +60,8 @@ dependencies {
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+
+    // Navigation
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
 }

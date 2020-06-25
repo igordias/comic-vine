@@ -30,8 +30,4 @@ class MoviesBoardFragment : BaseFragment() {
         subscribeUi()
         return binding.root
     }
-
-    private fun subscribeUi() {
-        viewModel.dialog.observeEvent(this, ::onNextDialog)
-    }
 }
