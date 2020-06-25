@@ -3,6 +3,7 @@ package dev.igordias.features.base.arch
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import dev.igordias.features.base.dialog.DialogData
 import dev.igordias.features.base.extension.observeEvent
 import dev.igordias.features.base.extension.showDialog

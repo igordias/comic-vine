@@ -11,8 +11,5 @@ fun <T> LiveData<T>.observe(owner: LifecycleOwner, observer: (T?) -> Unit) {
 }
 
 fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, observer: (T?) -> Unit) {
-    observe(owner,
-        EventObserver(observer)
-    )
+    observe(owner, EventObserver(observer))
 }
-
