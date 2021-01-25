@@ -7,5 +7,6 @@ data class Movie(
     val name: String,
     val producers: List<Collaborator>,
     val writers: List<Collaborator>,
-    val totalRevenue: String
+    val totalRevenue: String,
+    val image: MovieImage
 ) : Serializable

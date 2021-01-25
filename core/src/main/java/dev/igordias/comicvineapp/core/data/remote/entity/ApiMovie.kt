@@ -9,7 +9,8 @@ data class ApiMovie(
     @Json(name = "name") val name: String?,
     @Json(name = "producers") val producers: List<ApiCollaborator>?,
     @Json(name = "writers") val writers: List<ApiCollaborator>?,
-    @Json(name = "total_revenue") val totalRevenue: String?
+    @Json(name = "total_revenue") val totalRevenue: String?,
+    @Json(name = "image") val image: ApiMovieImage?
 ) {
     object ToMovieMapper : Mapper<ApiMovie, Movie>() {
         override fun transform(t: ApiMovie): Movie {
@@ -18,7 +19,8 @@ data class ApiMovie(
                 name = t.name ?: "",
                 producers = mapCollaborators(t.producers) ?: emptyList(),
                 writers = mapCollaborators(t.writers) ?: emptyList(),
-                totalRevenue = t.totalRevenue ?: ""
+                totalRevenue = t.totalRevenue ?: "",
+                image = ApiMovieImage.ToMovieImageMapper.transform(t.image)
             )
         }
 
